@@ -77,13 +77,19 @@
       };
     })();
 
-    title.addEventListener('input', function() {
+
+    var updateRows = function() {
+      text.setAttribute('rows', text.value.split("\n").length + 1 || 2);
+    };
+    updateRows();
+
+    text.addEventListener('input', function() {
+      updateRows();
       save();
     });
 
-    text.addEventListener('input', function() {
+    title.addEventListener('input', function() {
       save();
-      this.setAttribute('rows', this.value.split("\n").length + 1 || 2);
     });
 
     text.addEventListener('keydown', function(evt) {
