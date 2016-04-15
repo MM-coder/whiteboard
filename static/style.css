@@ -26,7 +26,8 @@ body {
     font-weight: bold;
     height: 49px;
     outline: 0;
-    margin: 8px 0;
+    margin: 16px 0;
+    width: 100%;
 }
 
 textarea {

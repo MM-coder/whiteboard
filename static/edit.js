@@ -73,7 +73,7 @@
             console.error(e);
             setStatus('Error saving.');
           });
-        }, 1000);
+        }, 500);
       };
     })();
 
