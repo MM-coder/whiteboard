@@ -16,8 +16,11 @@
     return function(fn, delay) {
       if (timer !== null) {
         clearTimeout(timer);
+        timer = null;
       }
-      timer = setTimeout(fn, delay);
+      if (fn !== undefined) {
+        timer = setTimeout(fn, delay);
+      }
     };
   };
 
@@ -25,7 +28,13 @@
     return new Promise(function (resolve, reject) {
       var xhr = new XMLHttpRequest();
       xhr.open(method, url);
-      xhr.onload = resolve;
+      xhr.onload = function(evt) {
+        if (this.status >= 200 && this.status < 300) {
+          resolve(this.response);
+        } else {
+          reject(evt);
+        }
+      };
       xhr.onerror = reject;
       xhr.send(body);
     });
@@ -34,13 +43,28 @@
   window.addEventListener('load', function() {
     var area = document.getElementsByTagName('textarea')[0];
 
+    var setStatus = (function(message) {
+      var status = document.getElementById('status');
+      var statusTimer = afterDelay();
+      return function(message, timeout) {
+        status.textContent = message;
+        if (timeout !== undefined) {
+          statusTimer(function() {
+            status.textContent = '';
+          }, timeout);
+        } else {
+          statusTimer();
+        };
+      };
+    })();
+
     var saveTimer = afterDelay();
     area.addEventListener('input', function() {
       saveTimer(function() {
-        http('PUT', '/', area.value).then(function(e) {
-          console.log(e.target.response);
-        }, function(e) {
-          console.error(e);
+        http('PUT', '/save', area.value).then(function(e) {
+          setStatus('Saved.', 2000);
+        }, function() {
+          setStatus('Error saving notes.');
         });
     }, 1000);
       this.setAttribute('rows', this.value.split("\n").length + 1 || 2);
