@@ -23,11 +23,12 @@ body {
 
 textarea {
     border: 0;
+    color: inherit;
     cursor: text;
     font-family: Georgia, Cambria, "Times New Roman", Times, serif;
     font-size: 18px;
     line-height: 26px;
-    min-height: 80vh;
+    min-height: 70vh;
     outline: 0;
     padding: 0;
     resize: none;
