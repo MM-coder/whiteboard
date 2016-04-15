@@ -11,7 +11,8 @@ def note(id):
         abort(404)
 
     if request.method == 'GET':
-        return render_template('edit.html')
+        title, text = readNote(id)
+        return render_template('edit.html', title=title, text=text)
 
     data = request.get_json()
     if data is None or not isinstance(data, dict):
@@ -29,6 +30,15 @@ def path_for(id):
     if path is None or not os.path.isfile(path):
         return None
     return path
+
+
+def readNote(id):
+    with open(path_for(id)) as f:
+        line = f.readline()
+        assert line.startswith('# ')
+        title = line[2:].strip()
+        assert f.readline() == '\n'
+        return title, f.read()
 
 
 def writeNote(id, title, text):
