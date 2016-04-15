@@ -1,6 +1,15 @@
 (function() {
   'use strict'
 
+  var insertText = function(elem, text) {
+      var startPos = elem.selectionStart;
+      var endPos = elem.selectionEnd;
+      elem.value = elem.value.substring(0, startPos)
+        + text
+        + elem.value.substring(endPos);
+      elem.selectionStart = elem.selectionEnd = startPos + text.length;
+  };
+
   window.addEventListener('load', function() {
     var area = document.getElementsByTagName('textarea')[0];
 
@@ -11,12 +20,7 @@
     area.addEventListener('keydown', function(evt) {
       if (evt.keyCode == 9) {
         evt.preventDefault();
-        var startPos = this.selectionStart;
-        var endPos = this.selectionEnd;
-        this.value = this.value.substring(0, startPos)
-          + "\t"
-          + this.value.substring(endPos, this.value.length);
-        this.selectionStart = this.selectionEnd = startPos + 1;
+        insertText(area, "\t");
       }
     });
   });
