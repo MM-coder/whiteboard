@@ -2,21 +2,34 @@ body {
     margin: 0;
 }
 
+.container {
+    color: #333;
+    margin: 0 auto;
+    width: 700px;
+    padding: 50px 0 0 0;
+}
+
+.title {
+    background: transparent;
+    border: 0;
+    color: inherit;
+    font-family: 'Open Sans', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+    font-size: 36px;
+    font-weight: bold;
+    outline: 0;
+    margin: 8px 0;
+}
+
 textarea {
     border: 0;
-    color: #333;
     cursor: text;
-    display: block;
     font-family: Georgia, Cambria, "Times New Roman", Times, serif;
     font-size: 18px;
     line-height: 26px;
-    margin: 0 auto;
-    min-height: 100vh;
+    min-height: 80vh;
     outline: 0;
     padding: 0;
-    left: 0;
-    right: 0;
     resize: none;
     tab-size: 4;
-    width: 700px;
+    width: 100%;
 }
