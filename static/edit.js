@@ -24,10 +24,11 @@
     };
   };
 
-  var http = function(method, url, body) {
+  var http = function(method, url, data) {
     return new Promise(function (resolve, reject) {
       var xhr = new XMLHttpRequest();
       xhr.open(method, url);
+      xhr.setRequestHeader('Content-Type', 'application/json');
       xhr.onload = function(evt) {
         if (this.status >= 200 && this.status < 300) {
           resolve(this.response);
@@ -36,15 +37,16 @@
         }
       };
       xhr.onerror = reject;
-      xhr.send(body);
+      xhr.send(JSON.stringify(data));
     });
   };
 
   window.addEventListener('load', function() {
-    var area = document.getElementsByTagName('textarea')[0];
+    var title = document.getElementById('title');
+    var text = document.getElementById('text');
+    var status = document.getElementById('status');
 
     var setStatus = (function(message) {
-      var status = document.getElementById('status');
       var statusTimer = afterDelay();
       return function(message, timeout) {
         status.textContent = message;
@@ -58,22 +60,36 @@
       };
     })();
 
-    var saveTimer = afterDelay();
-    area.addEventListener('input', function() {
-      saveTimer(function() {
-        http('PUT', '/save', area.value).then(function(e) {
-          setStatus('Saved.', 2000);
-        }, function() {
-          setStatus('Error saving notes.');
-        });
-    }, 1000);
+    var save = (function() {
+      var saveTimer = afterDelay();
+      return function() {
+        saveTimer(function() {
+          http('PUT', '', {
+            title: title.value,
+            text: text.value,
+          }).then(function(e) {
+            setStatus('Saved.', 2000);
+          }, function(e) {
+            console.error(e);
+            setStatus('Error saving.');
+          });
+        }, 1000);
+      };
+    })();
+
+    title.addEventListener('input', function() {
+      save();
+    });
+
+    text.addEventListener('input', function() {
+      save();
       this.setAttribute('rows', this.value.split("\n").length + 1 || 2);
     });
 
-    area.addEventListener('keydown', function(evt) {
+    text.addEventListener('keydown', function(evt) {
       if (evt.keyCode == 9) {
         evt.preventDefault();
-        insertText(area, "\t");
+        insertText(text, "\t");
       }
     });
   });
