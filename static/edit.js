@@ -55,10 +55,10 @@
             title: title.value,
             text: text.value,
           }).then(function(e) {
-            status.textContent = 'Saved.';
+            status.textContent = '✔ Saved';
           }, function(e) {
             console.error(e);
-            status.textContent = 'Error saving.';
+            status.textContent = '✗ Error saving.';
           });
         }, 500);
       };

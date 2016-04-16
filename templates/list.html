@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+
+{% block content %}
+    {%- with messages = get_flashed_messages(with_categories=True) %}
+    {%- if messages %}
+    {%- for category, message in messages %}
+    <div>{{ message }}</div>
+    {%- endfor %}
+    {%- endif %}
+    {%- endwith %}
+    <button class="add">New note</button>
+    {%- for fname, title, date in files %}
+    <div class="listing">
+      <span class="listing-date">{{ date.strftime('%m/%d') }}</span>
+      <a href="{{ url_for('.edit', fname=fname) }}" class="listing-title">{{ title or 'Untitled' }}</a>
+    </div>
+    {%- endfor %}
+    <div class="new-note-modal">
+      <form method="POST">
+        <p>New Note</p>
+        <input name="filename" type="text" placeholder="Filename">
+        <input type="submit">
+      </form>
+    </div>
+{% endblock %}
