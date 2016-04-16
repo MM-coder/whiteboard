@@ -46,57 +46,46 @@
     var text = document.getElementById('text');
     var status = document.getElementById('status');
 
-    var setStatus = (function(message) {
-      var statusTimer = afterDelay();
-      return function(message, timeout) {
-        status.textContent = message;
-        if (timeout !== undefined) {
-          statusTimer(function() {
-            status.textContent = '';
-          }, timeout);
-        } else {
-          statusTimer();
-        };
-      };
-    })();
-
     var save = (function() {
       var saveTimer = afterDelay();
       return function() {
+        status.textContent = '';
         saveTimer(function() {
           http('PUT', '', {
             title: title.value,
             text: text.value,
           }).then(function(e) {
-            setStatus('Saved.', 2000);
+            status.textContent = 'Saved.';
           }, function(e) {
             console.error(e);
-            setStatus('Error saving.');
+            status.textContent = 'Error saving.';
           });
         }, 500);
       };
     })();
 
 
-    var updateRows = function() {
-      text.setAttribute('rows', text.value.split("\n").length + 1 || 2);
-    };
-    updateRows();
-
-    text.addEventListener('input', function() {
+    if (text) {
+      var updateRows = function() {
+        text.setAttribute('rows', text.value.split("\n").length + 1 || 2);
+      };
       updateRows();
-      save();
-    });
 
-    title.addEventListener('input', function() {
-      save();
-    });
+      text.addEventListener('input', function() {
+        updateRows();
+        save();
+      });
 
-    text.addEventListener('keydown', function(evt) {
-      if (evt.keyCode == 9) {
-        evt.preventDefault();
-        insertText(text, "\t");
-      }
-    });
+      text.addEventListener('keydown', function(evt) {
+        if (evt.keyCode == 9) {
+          evt.preventDefault();
+          insertText(text, "\t");
+        }
+      });
+
+      title.addEventListener('input', function() {
+        save();
+      });
+    };
   });
 })();

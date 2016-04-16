@@ -1,5 +1,5 @@
 body {
-    font-family: Georgia, Cambria, "Times New Roman", Times, serif;
+    font-family: -apple-system, BlinkMacSystemFont, 'Helvetica Neue', Helvetica, Arial, sans-serif;
     margin: 0;
 }
 
@@ -10,9 +10,30 @@ body {
     padding: 50px 15px 0;
 }
 
+.add {
+    background: transparent;
+    border: 1px solid #d9d9d9;
+    border-radius: 18px;
+    color: #999;
+    cursor: pointer;
+    float: right;
+    font-size: 14px;
+    height: 37px;
+    outline: none;
+    padding: 0 14px;
+}
+
+.add:hover {
+  border-color: #b3b3b3;
+  color: #555;
+}
+
+.listing {
+  line-height: 49px;
+}
+
 .listing-date {
     display: inline-block;
-    font-family: 'Open Sans', 'Helvetica Neue', Helvetica, Arial, sans-serif;
     font-size: 24px;
     width: 70px;
 }
@@ -34,7 +55,7 @@ body {
   text-decoration: underline;
 }
 
-#status {
+.status {
     color: #a9a9a9;
     height: 18px;
     text-align: right;
@@ -49,12 +70,11 @@ body {
   width: 100%;
 }
 
-
 textarea {
     border: 0;
     color: inherit;
     cursor: text;
-    font-family: inherit;
+    font-family: Georgia, Cambria, "Times New Roman", Times, serif;
     font-size: 18px;
     line-height: 26px;
     min-height: 70vh;
