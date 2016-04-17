@@ -47,7 +47,7 @@
     var status = document.getElementById('status');
     var addBtn = document.getElementById('add-btn');
     var newListing = document.getElementById('new-listing');
-    var filename = document.getElementById('filename');
+    var newTitle = document.getElementById('new-title');
 
     var save = (function() {
       var saveTimer = afterDelay();
@@ -94,7 +94,7 @@
     if (addBtn) {
       addBtn.addEventListener('click', function() {
         newListing.classList.remove('hidden');
-        filename.focus();
+        newTitle.focus();
       });
     }
   });

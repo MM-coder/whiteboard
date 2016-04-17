@@ -12,7 +12,7 @@
       <div id="new-listing" class="listing hidden">
         <form method="POST">
           <span class="listing-date">{{ today().strftime('%m/%d') }}</span>
-          <input id="filename" class="new-title title" name="filename" type="text" placeholder="Title">
+          <input id="new-title" class="new-title title" name="title" type="text" placeholder="Title">
         </form>
       </div>
       {%- for fname, title, date in files %}
