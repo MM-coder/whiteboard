@@ -13,7 +13,7 @@ app.secret_key = 'abc'
 
 
 @app.route('/')
-def home():
+def list():
     files = []
     for fname in os.listdir(app.config['NOTES_DIR']):
         path = path_for(fname)
@@ -30,12 +30,12 @@ def create():
     title = request.form.get('title', '')
     if not re.match(r'[A-Za-z0-9\'\s]+', title):
         flash('Invalid filename')
-        return redirect(url_for('.home'), code=303)
+        return redirect(url_for('.list'), code=303)
     fname = title.lower().replace(' ', '-').replace('\'', '') + '.txt'
     path = path_for(fname, should_exist=False)
     if path is None:
         flash('That file exists')
-        return redirect(url_for('.home'), code=303)
+        return redirect(url_for('.list'), code=303)
     with open(path, 'w') as f:
         write_note(f, title, '')
     return redirect(url_for('.edit', fname=fname), code=303)
