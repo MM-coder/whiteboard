@@ -10,6 +10,10 @@ body {
     padding: 50px 15px 0;
 }
 
+.hidden {
+    display: none;
+}
+
 .add {
     background: transparent;
     border: 1px solid #d9d9d9;
@@ -24,17 +28,19 @@ body {
 }
 
 .add:hover {
-  border-color: #b3b3b3;
-  color: #555;
+    border-color: #b3b3b3;
+    color: #555;
 }
 
 .listing {
-  line-height: 49px;
+    line-height: 60px;
 }
 
 .listing-date {
     display: inline-block;
     font-size: 24px;
+    line-height: inherit;
+    vertical-align: middle;
     width: 70px;
 }
 
@@ -42,8 +48,8 @@ body {
     font-family: 'Open Sans', 'Helvetica Neue', Helvetica, Arial, sans-serif;
     font-size: 36px;
     font-weight: bold;
-    height: 49px;
     margin: 16px 0;
+    vertical-align: middle;
 }
 
 .listing-title {
@@ -63,11 +69,16 @@ body {
 }
 
 .title {
-  background: transparent;
-  border: 0;
-  color: inherit;
-  outline: 0;
-  width: 100%;
+    background: transparent;
+    border: 0;
+    color: inherit;
+    height: 49px;
+    outline: 0;
+    padding: 0;
+}
+
+.title.new-title {
+    margin: 0;
 }
 
 textarea {

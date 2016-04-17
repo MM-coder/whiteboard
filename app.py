@@ -8,7 +8,7 @@ import re
 
 
 app = Flask(__name__)
-
+app.jinja_env.globals['today'] = datetime.today
 app.secret_key = 'abc'
 
 
