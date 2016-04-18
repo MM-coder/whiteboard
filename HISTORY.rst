@@ -8,6 +8,7 @@ History
 
 - Open in browser when run from the command line
 - Handle duplicate filenames by appending numbers
+- Improve autosave behavior
 
 0.1.1 (2016-04-18)
 ++++++++++++++++++

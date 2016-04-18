@@ -26,15 +26,6 @@
     {char: 'B', symbol: '▣'},
   ];
 
-  var insertText = function(elem, text) {
-    var startPos = elem.selectionStart;
-    var endPos = elem.selectionEnd;
-    elem.value = elem.value.substring(0, startPos) + text
-      + elem.value.substring(endPos);
-    elem.selectionStart = elem.selectionEnd = startPos + text.length;
-    elem.focus();
-  };
-
   var createSymbolElement = function(symbol, char) {
     var symElem = document.createElement('div');
     symElem.classList.add('symbol-value');
@@ -49,17 +40,6 @@
     elem.appendChild(symElem);
     elem.appendChild(charElem);
     return elem;
-  };
-
-  var afterDelay = function() {
-    var timer = null;
-    return function(fn, delay) {
-      if (timer !== null) {
-        clearTimeout(timer);
-        timer = null;
-      }
-      timer = setTimeout(fn, delay);
-    };
   };
 
   var http = function(method, url, data) {
@@ -82,32 +62,45 @@
   window.addEventListener('load', function() {
     var title = document.getElementById('title');
     var text = document.getElementById('text');
-    var status = document.getElementById('status');
     var panel = document.getElementById('panel');
     var addBtn = document.getElementById('add-btn');
     var newListing = document.getElementById('new-listing');
     var newTitle = document.getElementById('new-title');
 
-    var save = (function() {
-      var saveTimer = afterDelay();
-      return function() {
-        status.textContent = '';
-        saveTimer(function() {
-          http('PUT', '', {
-            title: title.value,
-            text: text.value,
-          }).then(function(e) {
-            status.textContent = '✔ Saved';
-          }, function(e) {
-            console.error(e);
-            status.textContent = '✗ Error saving.';
-          });
-        }, 500);
-      };
-    })();
-
-
     if (text) {
+      var save = (function() {
+        var timer = null;
+        var status = document.getElementById('status');
+        return function() {
+          status.textContent = '';
+          if (timer !== null) {
+            clearTimeout(timer);
+            timer = null;
+          }
+          timer = setTimeout(function() {
+            http('PUT', '', {
+              title: title.value,
+              text: text.value,
+            }).then(function(e) {
+              status.textContent = '✔ Saved';
+            }, function(e) {
+              console.error(e);
+              status.textContent = '✗ Error saving.';
+            });
+          }, 500);
+        };
+      })();
+
+      var insertText = function(str) {
+        var startPos = text.selectionStart;
+        var endPos = text.selectionEnd;
+        text.value = text.value.substring(0, startPos) + str
+          + text.value.substring(endPos);
+        text.selectionStart = text.selectionEnd = startPos + str.length;
+        text.focus();
+        save();
+      };
+
       var updateRows = function() {
         text.setAttribute('rows', text.value.split("\n").length + 1 || 2);
       };
@@ -121,12 +114,12 @@
       text.addEventListener('keydown', function(evt) {
         if (evt.keyCode == 9) {
           evt.preventDefault();
-          insertText(text, "\t");
+          insertText("\t");
         } else if (evt.altKey) {
           symbols.forEach(function(symbol) {
             if (evt.keyCode == symbol.char.charCodeAt(0)) {
               evt.preventDefault();
-              insertText(text, symbol.symbol);
+              insertText(symbol.symbol);
             }
           });
         }
@@ -139,7 +132,7 @@
       symbols.forEach(function(symbol) {
         var elem = createSymbolElement(symbol.symbol, symbol.char);
         elem.addEventListener('click', function() {
-          insertText(text, symbol.symbol);
+          insertText(symbol.symbol);
         });
         panel.appendChild(elem);
       });
