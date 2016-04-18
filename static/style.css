@@ -7,7 +7,7 @@ body {
     color: #333;
     margin: 0 auto;
     max-width: 700px;
-    padding: 50px 15px 0 55px;
+    padding: 50px 15px 0 95px;
 }
 
 .hidden {
@@ -108,38 +108,33 @@ textarea {
     position: fixed;
     top: 50px;
     left: 0;
-    width: 40px;
+    width: 82px;
 }
 
 .symbol {
-    border-top: 1px solid #d9d9d9;
-    border-right: 1px solid #d9d9d9;
+    border: 1px solid #d9d9d9;
     color: #999;
     cursor: pointer;
+    display: inline-block;
+    margin-left: -1px;
+    margin-bottom: -1px;
     padding: 2px 0 4px;
     text-align: center;
-}
-
-.symbol:last-child {
-    border-bottom: 1px solid #d9d9d9;
+    width: 40px;
 }
 
 .symbol:hover {
-    border-color: #b3b3b3;
-    color: #555;
-}
-
-.symbol:hover + .symbol {
-    border-top-color: #b3b3b3;
+    color: #222;
 }
 
 .symbol-value {
     color: #777;
     font-size: 20px;
+    height: 25px;
 }
 
 .symbol:hover .symbol-value {
-    color: #333;
+    color: #111;
 }
 
 .symbol-code {

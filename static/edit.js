@@ -4,9 +4,26 @@
   var symbols = [
     {char: 'A', symbol: '∀'},
     {char: '2', symbol: '∃'},
-    {char: '3', symbol: '∋'},
     {char: '4', symbol: '∈'},
     {char: '5', symbol: '∉'},
+    {char: 'V', symbol: '∨'},
+    {char: 'N', symbol: '∧'},
+    {char: 'L', symbol: '¬'},
+    {char: '5', symbol: '⇒'},
+    {char: '5', symbol: '⇐'},
+    {char: '5', symbol: '⇔'},
+    {char: '5', symbol: 'Ø'},
+    {char: '5', symbol: '⊆'},
+    {char: '5', symbol: '⊂'},
+    {char: '5', symbol: '∪'},
+    {char: '5', symbol: '∩'},
+    {char: 'N', symbol: 'ℕ'},
+    {char: 'Z', symbol: 'ℤ'},
+    {char: 'Q', symbol: 'ℚ'},
+    {char: 'R', symbol: 'ℝ'},
+    {char: 'C', symbol: 'ℂ'},
+    {char: 'H', symbol: '✔'},
+    {char: 'B', symbol: '▣'},
   ];
 
   var insertText = function(elem, text) {
