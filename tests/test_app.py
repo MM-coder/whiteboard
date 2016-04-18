@@ -14,14 +14,6 @@ def app():
     return whiteboard.app.app
 
 
-def json_put(client, url, data, status=None, msg=None):
-    rv = client.put(url, data=json.dumps(data),
-                    content_type='application/json')
-    if status is not None:
-        assert rv.status_code == status
-    return rv
-
-
 def test_empty_list(app, tmpdir):
     app.config['NOTES_DIR'] = str(tmpdir)
     with app.test_client() as client:
@@ -72,26 +64,34 @@ def test_edit_file(app, tmpdir):
     app.config['NOTES_DIR'] = str(tmpdir)
     with app.test_client() as client:
 
-        json_put(client, '/test-file.txt', [], 404)
+        def assert_status(data, status):
+            rv = client.put('/test-file.txt', data=json.dumps(data),
+                            content_type='application/json')
+            assert rv.status_code == status
+
+        assert_status([], 404)
 
         f = tmpdir.join('test-file.txt')
         f.write('# Test File\n\n')
 
-        json_put(client, '/test-file.txt', None, 400)
-        json_put(client, '/test-file.txt', [], 400)
-        json_put(client, '/test-file.txt', {'title': ''}, 400)
-        json_put(client, '/test-file.txt', {'text': ''}, 400)
-        json_put(client, '/test-file.txt', {'title': '', 'text': []}, 400)
-        json_put(client, '/test-file.txt', {'title': [], 'text': ''}, 400)
+        assert_status(None, 400)
+        assert_status([], 400)
+        assert_status({'title': ''}, 400)
+        assert_status({'text': ''}, 400)
+        assert_status({'title': '', 'text': []}, 400)
+        assert_status({'title': [], 'text': ''}, 400)
 
-        json_put(client, '/test-file.txt', {'title': '', 'text': ''}, 204)
+        assert_status({'title': '', 'text': ''}, 204)
         assert f.read() == ''
 
-        json_put(client, '/test-file.txt', {'title': '', 'text': 'Abc'}, 204)
-        assert f.read() == 'Abc'
+        assert_status({'title': 'こんにちは', 'text': ''}, 204)
+        assert f.read() == '# こんにちは\n\n'
 
-        json_put(client, '/test-file.txt', {'title': 'Hi', 'text': 'Abc'}, 204)
-        assert f.read() == '# Hi\n\nAbc'
+        assert_status({'title': '', 'text': 'キティ\n'}, 204)
+        assert f.read() == 'キティ\n'
+
+        assert_status({'title': 'こんにちは', 'text': 'キティ\n'}, 204)
+        assert f.read() == '# こんにちは\n\nキティ\n'
 
 
 def test_cli():
