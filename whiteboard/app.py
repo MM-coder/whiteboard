@@ -1,15 +1,14 @@
+# -*- coding: utf-8 -*-
 from datetime import datetime
 from flask import Flask, Response, request, redirect, abort, render_template, \
                   url_for, flash
 from werkzeug.security import safe_join
 import os
-import sys
 import re
 
 
 app = Flask(__name__)
 app.jinja_env.globals['today'] = datetime.today
-app.secret_key = 'abc'
 
 
 @app.route('/')
@@ -88,8 +87,3 @@ def write_note(f, title, text):
     if title:
         f.write(u'# {0}\n\n'.format(title))
     f.write(text)
-
-
-if __name__ == '__main__':
-    app.config['NOTES_DIR'] = sys.argv[1]
-    app.run(debug=True)
