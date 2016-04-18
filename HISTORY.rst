@@ -6,6 +6,7 @@ History
 0.2.0 (2016-04-18)
 ++++++++++++++++++
 
+- Open in browser when run from the command line
 - Handle duplicate filenames by appending numbers
 
 0.1.1 (2016-04-18)

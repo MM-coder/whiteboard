@@ -4,6 +4,7 @@ import datetime
 import json
 import pytest
 import re
+import webbrowser
 import whiteboard.app
 import whiteboard.cli
 
@@ -11,6 +12,7 @@ import whiteboard.cli
 @pytest.fixture
 def app():
     whiteboard.app.app.config['SECRET_KEY'] = 'Sekrit key!'
+    whiteboard.app.app.config['DEBUG'] = True
     return whiteboard.app.app
 
 
@@ -99,7 +101,8 @@ def test_edit_file(app, tmpdir):
         assert u'>キティ\n</textarea>' in html
 
 
-def test_cli():
+def test_cli(monkeypatch):
+    monkeypatch.setattr('webbrowser.open', lambda x: None)
     runner = CliRunner()
     result = runner.invoke(whiteboard.cli.run, ['--host', 'fakehost'])
     assert result.exception
