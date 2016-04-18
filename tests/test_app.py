@@ -97,4 +97,4 @@ def test_edit_file(app, tmpdir):
 def test_cli():
     runner = CliRunner()
     result = runner.invoke(whiteboard.cli.run, ['--host', 'fakehost'])
-    assert 'nodename nor servname provided' in str(result.exception)
+    assert result.exception
