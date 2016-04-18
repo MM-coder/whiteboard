@@ -16,7 +16,7 @@ with open('README.rst', 'r') as f:
 
 setup(
     name='whiteboard',
-    version='0.1.0dev',
+    version=version,
     url='https://github.com/nickfrostatx/flask-hookserver',
     author='Nick Frost',
     author_email='nickfrostatx@gmail.com',
