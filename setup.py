@@ -10,8 +10,11 @@ with open('whiteboard/__init__.py', 'rb') as f:
         f.read().decode('utf-8')).group(1)))
 
 
-with open('README.rst', 'r') as f:
+with open('README.rst', 'rt') as f:
     readme = f.read()
+
+with open('HISTORY.rst', 'rt') as f:
+    history = f.read()
 
 
 setup(
@@ -21,7 +24,7 @@ setup(
     author='Nick Frost',
     author_email='nickfrostatx@gmail.com',
     description='Take math notes in your browser',
-    long_description=readme,
+    long_description=readme + u'\n\n' + history,
     packages=['whiteboard'],
     package_data={
         'whiteboard': [
