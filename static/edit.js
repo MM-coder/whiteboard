@@ -1,14 +1,37 @@
 (function() {
   'use strict'
 
+  var symbols = [
+    {char: 'A', symbol: '∀'},
+    {char: '2', symbol: '∃'},
+    {char: '3', symbol: '∋'},
+    {char: '4', symbol: '∈'},
+    {char: '5', symbol: '∉'},
+  ];
+
   var insertText = function(elem, text) {
-      var startPos = elem.selectionStart;
-      var endPos = elem.selectionEnd;
-      elem.value = elem.value.substring(0, startPos)
-        + text
-        + elem.value.substring(endPos);
-      elem.selectionStart = elem.selectionEnd = startPos + text.length;
-      elem.focus();
+    var startPos = elem.selectionStart;
+    var endPos = elem.selectionEnd;
+    elem.value = elem.value.substring(0, startPos) + text
+      + elem.value.substring(endPos);
+    elem.selectionStart = elem.selectionEnd = startPos + text.length;
+    elem.focus();
+  };
+
+  var createSymbolElement = function(symbol, char) {
+    var symElem = document.createElement('div');
+    symElem.classList.add('symbol-value');
+    symElem.innerText = symbol;
+
+    var charElem = document.createElement('div');
+    charElem.classList.add('symbol-code');
+    charElem.innerText = 'Alt+' + char;
+
+    var elem = document.createElement('div');
+    elem.classList.add('symbol');
+    elem.appendChild(symElem);
+    elem.appendChild(charElem);
+    return elem;
   };
 
   var afterDelay = function() {
@@ -18,9 +41,7 @@
         clearTimeout(timer);
         timer = null;
       }
-      if (fn !== undefined) {
-        timer = setTimeout(fn, delay);
-      }
+      timer = setTimeout(fn, delay);
     };
   };
 
@@ -45,6 +66,7 @@
     var title = document.getElementById('title');
     var text = document.getElementById('text');
     var status = document.getElementById('status');
+    var panel = document.getElementById('panel');
     var addBtn = document.getElementById('add-btn');
     var newListing = document.getElementById('new-listing');
     var newTitle = document.getElementById('new-title');
@@ -83,11 +105,26 @@
         if (evt.keyCode == 9) {
           evt.preventDefault();
           insertText(text, "\t");
+        } else if (evt.altKey) {
+          symbols.forEach(function(symbol) {
+            if (evt.keyCode == symbol.char.charCodeAt(0)) {
+              evt.preventDefault();
+              insertText(text, symbol.symbol);
+            }
+          });
         }
       });
 
       title.addEventListener('input', function() {
         save();
+      });
+
+      symbols.forEach(function(symbol) {
+        var elem = createSymbolElement(symbol.symbol, symbol.char);
+        elem.addEventListener('click', function() {
+          insertText(text, symbol.symbol);
+        });
+        panel.appendChild(elem);
       });
     }
 
