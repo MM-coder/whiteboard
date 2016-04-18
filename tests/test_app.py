@@ -93,6 +93,11 @@ def test_edit_file(app, tmpdir):
         assert_status({'title': 'こんにちは', 'text': 'キティ\n'}, 204)
         assert f.read() == '# こんにちは\n\nキティ\n'
 
+        rv = client.get('/test-file.txt')
+        html = rv.data.decode('utf-8')
+        assert u'value="こんにちは"' in html
+        assert u'>キティ\n</textarea>' in html
+
 
 def test_cli():
     runner = CliRunner()

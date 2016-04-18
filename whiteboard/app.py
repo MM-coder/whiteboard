@@ -79,7 +79,7 @@ def read_title(f):
 
 def read_note(fname):
     with open(path_for(fname), 'rb') as f:
-        return read_title(f), f.read()
+        return read_title(f), f.read().decode('utf-8')
 
 
 def write_note(f, title, text):
