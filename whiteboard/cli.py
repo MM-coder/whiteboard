@@ -13,4 +13,4 @@ def run(path, port, host):
     app.config['DEBUG'] = True
     app.config['NOTES_DIR'] = path
     app.config['SECRET_KEY'] = 'bMYruZ0WbDsJeZI7K6SSZRDgNKCaKsGi'
-    app.run(host=host, port=port)
+    app.run(host=host, port=port, use_reloader=False)

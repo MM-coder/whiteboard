@@ -1,3 +1,4 @@
+
 # -*- coding: utf-8 -*-
 from datetime import datetime
 from flask import Flask, Response, request, redirect, abort, render_template, \
@@ -27,10 +28,8 @@ def list():
 @app.route('/', methods=['POST'])
 def create():
     title = request.form.get('title', '')
-    if not re.match(r'[A-Za-z0-9\'\s]+', title):
-        flash('Invalid filename')
-        return redirect(url_for('.list'), code=303)
-    fname = title.lower().replace(' ', '-').replace('\'', '') + '.txt'
+    fname = re.sub(r'[^A-Za-z0-9\s]', '', title)
+    fname = fname.lower().replace(' ', '-') + '.txt'
     path = path_for(fname, should_exist=False)
     if path is None:
         flash('That file exists')
