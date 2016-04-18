@@ -17,7 +17,7 @@ with open('README.rst', 'r') as f:
 setup(
     name='whiteboard',
     version=version,
-    url='https://github.com/nickfrostatx/flask-hookserver',
+    url='https://github.com/nickfrostatx/whiteboard',
     author='Nick Frost',
     author_email='nickfrostatx@gmail.com',
     description='Take math notes in your browser',
