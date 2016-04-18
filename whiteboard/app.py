@@ -19,7 +19,7 @@ def list():
         path = path_for(fname)
         if path is not None and not fname.startswith('.'):
             t = os.path.getmtime(path)
-            with open(path) as f:
+            with open(path, 'rb') as f:
                 files.append((fname, read_title(f), datetime.fromtimestamp(t)))
     files.sort(key=lambda x: x[2], reverse=True)
     return render_template('list.html', files=files)
@@ -34,7 +34,7 @@ def create():
     if path is None:
         flash('That file exists')
         return redirect(url_for('.list'), code=303)
-    with open(path, 'w') as f:
+    with open(path, 'wb') as f:
         write_note(f, title, '')
     return redirect(url_for('.edit', fname=fname), code=303)
 
@@ -49,7 +49,7 @@ def edit(fname):
         title, text = read_note(fname)
         return render_template('edit.html', title=title, text=text)
 
-    with open(path, 'w') as f:
+    with open(path, 'wb') as f:
         write_note(f, json_value('title'), json_value('text'))
     return Response(status=204)
 
@@ -72,17 +72,19 @@ def path_for(fname, should_exist=True):
 
 def read_title(f):
     line = f.readline()
-    if line.startswith('# ') and f.readline() == '\n':
-        return line[2:-1]
+    if line.startswith(b'# ') and f.readline() == b'\n':
+        return line[2:-1].decode('utf-8')
     return None
 
 
 def read_note(fname):
-    with open(path_for(fname)) as f:
+    with open(path_for(fname), 'rb') as f:
         return read_title(f), f.read()
 
 
 def write_note(f, title, text):
     if title:
-        f.write(u'# {0}\n\n'.format(title))
-    f.write(text)
+        f.write(b'# ')
+        f.write(title.encode('utf-8'))
+        f.write(b'\n\n')
+    f.write(text.encode('utf-8'))

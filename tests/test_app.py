@@ -45,17 +45,17 @@ def test_create_file(app, tmpdir):
         rv = client.get('/test-file.txt')
         assert rv.status_code == 404
 
-        rv = client.post('/', data={'title': 'Test File'})
-        assert rv.headers['Location'] == 'http://localhost/test-file.txt'
+        rv = client.post('/', data={'title': '../Test こんにちは'})
+        assert rv.headers['Location'] == 'http://localhost/test-.txt'
         assert rv.status_code == 303
 
-        rv = client.get('/test-file.txt')
-        assert b'value="Test File"' in rv.data
+        rv = client.get('/test-.txt')
+        assert u'value="../Test こんにちは"' in rv.data.decode('utf-8')
         assert rv.status_code == 200
 
-        assert tmpdir.join('test-file.txt').read() == '# Test File\n\n'
+        assert tmpdir.join('test-.txt').read() == '# ../Test こんにちは\n\n'
 
-        rv = client.post('/', data={'title': 'Test File'})
+        rv = client.post('/', data={'title': 'Test !!'})
         assert rv.headers['Location'] == 'http://localhost/'
         assert rv.status_code == 303
 
