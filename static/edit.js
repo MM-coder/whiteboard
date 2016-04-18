@@ -150,6 +150,14 @@
         newListing.classList.remove('hidden');
         newTitle.focus();
       });
+
+      newTitle.addEventListener('keydown', function(evt) {
+        if (evt.keyCode == 27) {
+          newTitle.blur();
+          newTitle.value = '';
+          newListing.classList.add('hidden');
+        }
+      });
     }
   });
 })();
