@@ -14,3 +14,17 @@ Whiteboard
     :target: https://raw.githubusercontent.com/nickfrostatx/whiteboard/master/LICENSE
 
 I'm tired of copying ¬ and ∉ in vim to take notes, so I'll make an editor.
+
+Installation
+------------
+
+.. code-block:: bash
+
+    $ pip install whiteboard
+
+Usage
+-----
+
+.. code-block:: bash
+
+    $ whiteboard /path/to/notes/dir --port 8080 --host 0.0.0.0
