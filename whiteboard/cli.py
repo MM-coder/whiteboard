@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 from .app import app
 import click
+import webbrowser
 
 
 @click.command()
@@ -13,4 +14,5 @@ def run(path, port, host):
     app.config['DEBUG'] = True
     app.config['NOTES_DIR'] = path
     app.config['SECRET_KEY'] = 'bMYruZ0WbDsJeZI7K6SSZRDgNKCaKsGi'
-    app.run(host=host, port=port, use_reloader=False)
+    webbrowser.open('http://%s:%d/' % (host, port))
+    app.run(host=host, port=port, use_reloader=False, use_debugger=False)
