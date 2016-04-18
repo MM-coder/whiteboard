@@ -15,10 +15,10 @@
           <input id="new-title" class="new-title title" name="title" type="text" placeholder="Title">
         </form>
       </div>
-      {%- for fname, title, date in files %}
+      {%- for note in notes %}
       <div class="listing">
-        <span class="listing-date">{{ date.strftime('%m/%d') }}</span>
-        <a href="{{ url_for('.edit', fname=fname) }}" class="listing-title">{{ title or 'Untitled' }}</a>
+        <span class="listing-date">{{ note.mtime.strftime('%m/%d') }}</span>
+        <a href="{{ url_for('.edit', fname=note.filename) }}" class="listing-title">{{ note.title or 'Untitled' }}</a>
       </div>
       {%- endfor %}
 {%- endblock %}
