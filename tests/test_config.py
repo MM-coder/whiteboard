@@ -23,10 +23,10 @@ def test_global_config(temp_home, tmpdir, bad_json):
 
 def test_local_override(temp_home, tmpdir, bad_json):
     temp_home.write('{"a": 1, "b": 2}')
-    tmpdir.join('.whiteboardrc').write('{"b": 3}')
+    tmpdir.join('.whiteboardrc').write('{"b": "こんにちは"}')
     data = load_config(str(tmpdir))
     assert data['a'] == 1
-    assert data['b'] == 3
+    assert data['b'] == 'こんにちは'
     assert 'SECRET_KEY' in data
 
 
