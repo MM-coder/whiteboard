@@ -93,7 +93,7 @@ textarea {
     border: 0;
     color: inherit;
     cursor: text;
-    font-family: Georgia, Cambria, "Times New Roman", Times, serif;
+    font-family: Cambria, "Times New Roman", Times, serif;
     font-size: 18px;
     line-height: 26px;
     min-height: 70vh;
@@ -129,6 +129,7 @@ textarea {
 
 .symbol-value {
     color: #777;
+    font-family: Cambria, "Times New Roman", Times, serif;
     font-size: 20px;
     height: 25px;
 }
