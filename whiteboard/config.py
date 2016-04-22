@@ -27,7 +27,7 @@ def _from_file(filename):
                              % type(data).__name__)
     except IOError:
         pass
-    except json.JSONDecodeError as e:
+    except ValueError as e:
         err_and_exit(str(e))
 
     return data
