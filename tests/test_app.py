@@ -99,7 +99,7 @@ def test_edit_file(app, tmpdir):
 
 
 def test_cli(monkeypatch):
-    monkeypatch.setattr('webbrowser.open', lambda x: None)
+    monkeypatch.setattr('click.launch', lambda x: None)
     runner = CliRunner()
     result = runner.invoke(whiteboard.cli.run, ['--host', 'fakehost'])
     assert result.exception

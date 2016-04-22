@@ -38,7 +38,7 @@ setup(
         ],
     },
     install_requires=[
-        'click>=2.0',
+        'click>=3.0',
         'Flask>=0.9',
         'Werkzeug>=0.7',
     ],
