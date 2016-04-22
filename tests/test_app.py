@@ -10,14 +10,14 @@ import whiteboard.cli
 
 
 @pytest.fixture
-def app():
+def app(tmpdir):
+    whiteboard.app.app.config['NOTES_DIR'] = str(tmpdir)
     whiteboard.app.app.config['SECRET_KEY'] = 'Sekrit key!'
     whiteboard.app.app.config['DEBUG'] = True
     return whiteboard.app.app
 
 
 def test_empty_list(app, tmpdir):
-    app.config['NOTES_DIR'] = str(tmpdir)
     with app.test_client() as client:
         rv = client.get('/')
         assert b'<div class="listing">' not in rv.data
@@ -25,7 +25,6 @@ def test_empty_list(app, tmpdir):
 
 
 def test_file_list(app, tmpdir):
-    app.config['NOTES_DIR'] = str(tmpdir)
     with app.test_client() as client:
         test1 = tmpdir.join('test1.txt')
         test1.open('a').close()
@@ -42,7 +41,6 @@ def test_file_list(app, tmpdir):
 
 
 def test_create_file(app, tmpdir):
-    app.config['NOTES_DIR'] = str(tmpdir)
     with app.test_client() as client:
         rv = client.get('/test-file.txt')
         assert rv.status_code == 404
@@ -63,7 +61,6 @@ def test_create_file(app, tmpdir):
 
 
 def test_edit_file(app, tmpdir):
-    app.config['NOTES_DIR'] = str(tmpdir)
     with app.test_client() as client:
 
         def assert_status(data, status):
