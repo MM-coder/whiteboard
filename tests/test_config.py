@@ -23,7 +23,7 @@ def test_global_config(temp_home, tmpdir, bad_json):
 
 def test_local_override(temp_home, tmpdir, bad_json):
     temp_home.write('{"a": 1, "b": 2}')
-    tmpdir.join('.whiteboardrc').write(u'{"b": "こんにちは"}')
+    tmpdir.join('.whiteboardrc').write_text(u'{"b": "こんにちは"}', 'utf-8')
     data = load_config(str(tmpdir))
     assert data['a'] == 1
     assert data['b'] == u'こんにちは'
